@@ -1,5 +1,7 @@
 import argparse
+
 from gendiff.scripts.generate_diff import generate_diff  # Правильный импорт
+
 
 def main():
     # Создание парсера аргументов
@@ -30,6 +32,7 @@ def main():
     # Вызов функции для сравнения файлов и вывод результата
     diff = generate_diff(args.first_file, args.second_file)
     print(diff)
+
 
 if __name__ == '__main__':
     main()

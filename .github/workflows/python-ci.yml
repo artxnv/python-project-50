@@ -1,0 +1,49 @@
+name: Python CI
+
+on:
+  push:
+    branches:
+      - main
+      - 'feature/*'
+  pull_request:
+    branches:
+      - main
+      - 'feature/*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [^3.10]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        run: |
+          pip install poetry
+          poetry install
+
+      - name: Run linting
+        run: |
+          poetry run flake8 .
+          poetry run isort --check .
+
+      - name: Run tests with coverage
+        run: |
+          poetry run pytest --cov=gendiff --cov-report=lcov tests > coverage.lcov
+          
+      - name: Upload coverage to CodeClimate
+        uses: paambaati/codeclimate-action@v5.0.0
+        if: github.ref_name == 'main'
+        env:
+          CC_TEST_REPORTER_ID: ${{758f418d7f82fda79aaf9a643846a752243d591b82aed8ac67671348dce18100}}
+        with:
+          coverageCommand: cat coverage.lcov
+          debug: true
