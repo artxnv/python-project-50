@@ -1,25 +1,40 @@
-============================= test session starts ==============================
-platform linux -- Python 3.11.10, pytest-8.3.3, pluggy-1.5.0
-rootdir: /home/artxnv/python-project-50
-configfile: pyproject.toml
-plugins: cov-5.0.0
-collected 0 items / 1 error
-
-==================================== ERRORS ====================================
-_________________ ERROR collecting tests/test_generate_diff.py _________________
-ImportError while importing test module '/home/artxnv/python-project-50/tests/test_generate_diff.py'.
-Hint: make sure your test modules/packages have valid Python names.
-Traceback:
-/usr/lib/python3.11/importlib/__init__.py:126: in import_module
-    return _bootstrap._gcd_import(name[level:], package, level)
-tests/test_generate_diff.py:1: in <module>
-    from gendiff.scripts.generate_diff import generate_diff
-E   ModuleNotFoundError: No module named 'gendiff'
+SF:gendiff/__init__.py
+DA:1,1
+LF:1
+LH:1
+end_of_record
+SF:gendiff/scripts/__init__.py
+end_of_record
+SF:gendiff/scripts/gendiff.py
+DA:1,0
+DA:3,0
+DA:6,0
+DA:8,0
+DA:13,0
+DA:17,0
+DA:23,0
+DA:30,0
+DA:33,0
+DA:34,0
+DA:37,0
+DA:38,0
+LF:12
+LH:0
+FN:6,34,main
+FNDA:0,main
+FNF:1
+FNH:0
+end_of                                            [100%]
 
 ---------- coverage: platform linux, python 3.11.10-final-0 ----------
 Coverage LCOV written to file coverage.lcov
 
-=========================== short test summary info ============================
-ERROR tests/test_generate_diff.py
-!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
-=============================== 1 error in 0.09s ===============================
+
+============================== 1 passed in 0.03s ===============================
+FN:4,28,generate_diff
+FNDA:1,generate_diff
+FN:31,37,format_value
+FNDA:1,format_value
+FNF:2
+FNH:2
+end_of_record

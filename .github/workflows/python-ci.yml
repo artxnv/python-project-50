@@ -39,18 +39,12 @@ jobs:
         run: |
           poetry run pytest --cov=gendiff --cov-report=lcov tests > coverage.lcov
 
-      - name: Install CodeClimate Reporter
-        run: |
-          curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-reporter
-          chmod +x ./cc-reporter
-
-      - name: Before build - CodeClimate Reporter
-        run: |
-          ./cc-reporter before-build
-
       - name: Upload coverage to CodeClimate
-        run: |
-          ./cc-reporter after-build --exit-code $?
+        uses: paambaati/codeclimate-action@v5.0.0
+        if: github.ref_name == 'main'
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
-
+        with:
+          coverageCommand: cat coverage.lcov
+          coverageInputType: lcov
+          debug: true
