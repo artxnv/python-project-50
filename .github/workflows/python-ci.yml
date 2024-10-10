@@ -40,7 +40,7 @@ jobs:
 
       - name: Run tests with coverage
         run: |
-          poetry run pytest --cov=gendiff --cov-report=lcov tests > coverage.lcov
+          poetry run pytest --cov=gendiff --cov-report=lcov:coverage/lcov.info tests
 
       - name: List files after tests
         run: ls -la
@@ -56,6 +56,6 @@ jobs:
 
       - name: Upload coverage to CodeClimate
         run: |
-          ./cc-reporter after-build --exit-code $? --coverage-input-type lcov -p ./coverage.lcov --debug
+          ./cc-reporter after-build --exit-code $? --coverage-input-type lcov -p coverage/lcov.info --debug
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
