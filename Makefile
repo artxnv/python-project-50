@@ -2,6 +2,8 @@
 
 install:
 	poetry install
+	curl -sSL https://install.python-poetry.org | python3 -
+	echo "$$HOME/.local/bin" >> $$GITHUB_PATH
 
 lint:
 	poetry run flake8 .
