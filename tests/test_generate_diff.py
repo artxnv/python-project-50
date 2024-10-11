@@ -7,15 +7,19 @@ def load_fixture(filename):
         return file.read()
 
 
-def test_generate_diff():
-    expected_output = load_fixture('expected_output.txt')
-
+def test_generate_diff_json():
+    expected_output = load_fixture('expected_output_json.txt')
     diff = generate_diff(
         'tests/fixtures/file1.json',
         'tests/fixtures/file2.json'
     )
+    assert diff == expected_output
 
-    print(f"Generated Diff:\n{diff}")
-    print(f"Expected Output:\n{expected_output}")
 
+def test_generate_diff_yaml():
+    expected_output = load_fixture('expected_output_yaml.txt')
+    diff = generate_diff(
+        'tests/fixtures/file1.yml',
+        'tests/fixtures/file2.yml'
+    )
     assert diff == expected_output
