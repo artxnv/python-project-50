@@ -23,3 +23,21 @@ def test_generate_diff_yaml():
         'tests/fixtures/file2.yml'
     )
     assert diff == expected_output
+
+
+def test_generate_diff_nested_json():
+    expected_output = load_fixture('expected_output_nested_json.txt')
+    diff = generate_diff(
+        'tests/fixtures/nested_file1.json',
+        'tests/fixtures/nested_file2.json'
+    )
+    assert diff == expected_output
+
+
+def test_generate_diff_nested_yaml():
+    expected_output = load_fixture('expected_output_nested_yaml.txt')
+    diff = generate_diff(
+        'tests/fixtures/nested_file1.yml',
+        'tests/fixtures/nested_file2.yml'
+    )
+    assert diff == expected_output
