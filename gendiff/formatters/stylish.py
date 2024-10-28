@@ -1,46 +1,35 @@
-def format_diff(diff_tree):
-    return format_stylish(diff_tree)
+# stylish.py
+def format_stylish(diff_tree, depth=0):
+    """Форматирует дерево различий в стиль 'stylish'."""
+    indent = '  ' * depth
+    lines = ["{"]
+    
+    for node in diff_tree:
+        key = node['key']
+        status = node['status']
+        
+        if status == 'added':
+            lines.append(f"{indent}  + {key}: {format_value(node['value'], depth + 1)}")
+        elif status == 'removed':
+            lines.append(f"{indent}  - {key}: {format_value(node['value'], depth + 1)}")
+        elif status == 'changed':
+            lines.append(f"{indent}  - {key}: {format_value(node['old_value'], depth + 1)}")
+            lines.append(f"{indent}  + {key}: {format_value(node['new_value'], depth + 1)}")
+        elif status == 'unchanged':
+            lines.append(f"{indent}    {key}: {format_value(node['value'], depth + 1)}")
+        elif status == 'nested':
+            lines.append(f"{indent}    {key}: {format_stylish(node['value'], depth + 1)}")
+    
+    lines.append(f"{'  ' * (depth)}" + "}")
+    return '\n'.join(lines)
 
-
-def format_stylish(diff_tree):
-    def format_node(node, depth=0):
-        indent = ' ' * 4 * depth
-        lines = []
-
-        for item in node:
-            key = item['key']
-            status = item['status']
-
-            if status == 'added':
-                lines.append(f"{indent}+ {key}: {format_value(item['value'], depth)}")
-            elif status == 'removed':
-                lines.append(f"{indent}- {key}: {format_value(item['value'], depth)}")
-            elif status == 'unchanged':
-                lines.append(f"{indent}  {key}: {format_value(item['value'], depth)}")
-            elif status == 'changed':
-                lines.append(f"{indent}- {key}: {format_value(item['old_value'], depth)}")
-                lines.append(f"{indent}+ {key}: {format_value(item['new_value'], depth)}")
-            elif status == 'nested':
-                lines.append(f"{indent}  {key}: {{")
-                lines.append(format_node(item['value'], depth + 1))
-                lines.append(f"{indent}  }}")
-
+def format_value(value, depth):
+    """Вспомогательная функция для форматирования значений."""
+    if isinstance(value, dict):
+        indent = '  ' * depth
+        lines = ["{"]
+        for k, v in value.items():
+            lines.append(f"{indent}    {k}: {format_value(v, depth + 1)}")
+        lines.append(f"{indent}}}")
         return '\n'.join(lines)
-
-    def format_value(value, depth):
-        if isinstance(value, dict):
-            lines = []
-            indent = ' ' * 4 * (depth + 1)
-            for k, v in value.items():
-                lines.append(f"{indent}{k}: {format_value(v, depth + 1)}")
-            return "{{\n{}\n{}}}".format('\n'.join(lines), ' ' * 4 * depth)  # Используем метод format()
-        return format_primitive_value(value)
-
-    def format_primitive_value(value):
-        if isinstance(value, bool):
-            return str(value).lower()
-        if value is None:
-            return 'null'
-        return str(value)
-
-    return format_node(diff_tree)
+    return str(value).lower() if isinstance(value, bool) else str(value)
