@@ -1,15 +1,20 @@
 from gendiff.data_loader import load_data
-from gendiff.nested_diff_builder import build_nested_diff_tree
-from gendiff.flat_diff_builder import build_flat_diff_tree
+from gendiff.formatters.stylish import format_stylish  # Форматтер для плоских файлов
+from gendiff.formatters.nested_stylish import format_nested_stylish  # Форматтер для вложенных файлов
 
-def generate_diff(file1_path, file2_path, formatter):
+def generate_diff(file1_path, file2_path, formatter=format_stylish):
     data1 = load_data(file1_path)
     data2 = load_data(file2_path)
     diff_tree = build_diff(data1, data2)
-    return formatter(diff_tree)  # Передаем дерево в форматтер
+    
+    # Используем форматтер в зависимости от наличия вложенных структур
+    if any(node['status'] == 'nested' for node in diff_tree):
+        return format_nested_stylish(diff_tree)  # Форматируем как вложенные
+    else:
+        return formatter(diff_tree)  # Форматируем как плоские
 
 def build_diff(data1, data2):
-    """Создает основное дерево различий в виде структуры данных, не зависящей от форматов."""
+    """Создает основное дерево различий в виде структуры данных."""
     diff_tree = []
     keys = sorted(set(data1.keys()).union(data2.keys()))
 
@@ -22,7 +27,7 @@ def build_diff(data1, data2):
             if isinstance(data1[key], dict) and isinstance(data2[key], dict):
                 diff_tree.append({
                     "key": key,
-                    "value": build_diff(data1[key], data2[key]),  # Вложенное дерево
+                    "value": build_diff(data1[key], data2[key]),
                     "status": "nested"
                 })
             elif data1[key] != data2[key]:
