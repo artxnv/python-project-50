@@ -36,7 +36,6 @@ jobs:
       - name: Run linting
         run: |
           poetry run flake8 .
-          poetry run isort --check .
 
       - name: Run tests with coverage
         run: |

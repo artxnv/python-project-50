@@ -17,12 +17,11 @@ test_data = [
     ('file3.json', 'file4.json', 'plain', 'result_file3_file4_plain'),
     ('file3.yml', 'file4.yml', 'plain', 'result_file3_file4_plain'),
     ('file3.json', 'file4.json', 'json', 'result_file3_file4_json'),
-    ('file3.yml', 'file4.yml', 'json', 'result_file3_file4_json')
+    ('file3.yml', 'file4.yml', 'json', 'result_file3_file4_json'),
 ]
 
 
 @pytest.mark.parametrize('file1, file2, format_name, result_file', test_data)
 def test_flat_json(file1, file2, format_name, result_file):
     result = open(get_path(result_file)).read()
-    assert (generate_diff(get_path(file1), get_path(file2), format_name) ==
-            result)
+    assert generate_diff(get_path(file1), get_path(file2), format_name) == result
