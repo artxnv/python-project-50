@@ -22,7 +22,7 @@ def get_list_lines(item, level):
     indent = get_indent(level)
     if status == 'nested':
         result.append(f'{indent}{key}: '
-                      f'{format_stylish(item["nested"], level+1)}')
+                      f'{format_stylish(item["nested"], level + 1)}')
     elif status == 'equal':
         result.append(f'{indent}{key}: '
                       f'{get_value(old_value, level)}')
