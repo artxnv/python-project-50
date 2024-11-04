@@ -6,3 +6,7 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/5bdc7500247f242dfa70/maintainability)](https://codeclimate.com/github/artxnv/python-project-50/maintainability)
 
 [![Python CI](https://github.com/artxnv/python-project-50/actions/workflows/python-ci.yml/badge.svg)](https://github.com/artxnv/python-project-50/actions/workflows/python-ci.yml)
+
+
+
+tt
