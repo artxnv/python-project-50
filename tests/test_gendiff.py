@@ -24,4 +24,6 @@ test_data = [
 @pytest.mark.parametrize('file1, file2, format_name, result_file', test_data)
 def test_flat_json(file1, file2, format_name, result_file):
     result = open(get_path(result_file)).read()
-    assert generate_diff(get_path(file1), get_path(file2), format_name) == result
+    assert (
+        generate_diff(get_path(file1), get_path(file2), format_name) == result
+    )
