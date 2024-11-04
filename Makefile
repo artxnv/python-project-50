@@ -1,19 +1,24 @@
-.PHONY: lint install test coverage
+build:
+	poetry build
+
+publish:
+	poetry publish --dry-run
+
+package-install:
+	python3 -m pip install --user dist/*.whl --force-reinstall
+
+setup: build publish package-install
+
+lint:
+	poetry run flake8 gendiff
 
 install:
 	poetry install
-	curl -sSL https://install.python-poetry.org | python3 -
-	echo "$$HOME/.local/bin" >> $$GITHUB_PATH
 
-lint:
-	poetry run flake8 .
-	poetry run isort --check .
+check: check test lint
 
 test:
-	pytest --cov=. --cov-report=lcov --cov-report=term
+	poetry run pytest -s
 
-coverage:
-	./cc-reporter before-build
-	pytest --cov=. --cov-report=lcov --cov-report=term --cov-report=lcov:coverage/lcov.info
-	./cc-reporter after-build --exit-code $$? --coverage-input-type lcov --debug -p .
-
+test-coverage:
+	poetry run pytest --cov=gendiff --cov-report xml
