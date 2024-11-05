@@ -1,5 +1,12 @@
 from gendiff.formater.common import resolve_to_string
 
+# Константы для статусов
+STATUS_EQUAL = 'equal'
+STATUS_NESTED = 'nested'
+STATUS_ADDED = 'added'
+STATUS_DELETED = 'deleted'
+STATUS_CHANGED = 'changed'
+
 
 def format_plain(diff, path=''):
     result = []
@@ -14,15 +21,15 @@ def format_plain(diff, path=''):
 
 def make_line(item, path):
     status = item['status']
-    if status == 'equal':
+    if status == STATUS_EQUAL:
         return None
-    elif status == 'nested':
+    elif status == STATUS_NESTED:
         return format_plain(item['nested'], path)
-    elif status == 'added':
+    elif status == STATUS_ADDED:
         action = f'added with value: {get_value(item["new_value"])}'
-    elif status == 'deleted':
+    elif status == STATUS_DELETED:
         action = 'removed'
-    elif status == 'changed':
+    elif status == STATUS_CHANGED:
         action = (f'updated. From {get_value(item["old_value"])}'
                   f' to {get_value(item["new_value"])}')
     else:
